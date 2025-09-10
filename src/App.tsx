@@ -1,40 +1,12 @@
-import { lazy, Suspense, useMemo } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import routes from './routes/routes';
 
-const FallBack = () => (
-  <div style={{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh'
-  }}>
-    <div>Loading...</div>
-  </div>
-);
+const router = createBrowserRouter(routes);  
 
-// Lazy-loaded pages
-const Home = lazy(() => import('./pages/home'));
+function App() {
+  return (
+      <RouterProvider router={router} /> 
+  );
+}
 
-const AppRouter = () => {
-  const router = useMemo(() =>
-    createBrowserRouter([
-      {
-        path: '/',
-        children: [
-          {
-            index: true,
-            element: (
-              <Suspense fallback={<FallBack />}>
-                <Home />
-              </Suspense>
-            ),
-          },
-        ],
-      },
-    ]),
-  []);
-
-  return <RouterProvider router={router} />;
-};
-
-export default AppRouter;
+export default App;
