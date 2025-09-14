@@ -23,7 +23,7 @@ export const axiosBaseQuery =
     unknown,
     unknown
   > =>
-  async ({ url, method, data, params, withToken, isFormData }) => {
+  async ({ url, method, data, params, withToken, isFormData }, { signal }) => {
     try {
       const headers: any = {};
 
@@ -40,11 +40,22 @@ export const axiosBaseQuery =
         data,
         params,
         headers,
+        signal, 
       });
 
       return { data: response.data };
     } catch (err) {
       const error = err as AxiosError;
+      
+      if (error.code === 'ERR_CANCELED' || error.name === 'CanceledError') {
+        return {
+          error: {
+            status: 'CANCELLED',
+            data: 'Request was cancelled',
+          },
+        };
+      }
+
       return {
         error: {
           status: error.response?.status,

@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux'; 
 import './index.css';
 import App from './App';
-import { store } from './app/stroe';
+import { store } from './store/stroe';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
