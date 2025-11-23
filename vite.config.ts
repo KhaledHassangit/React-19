@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
   plugins: [
@@ -9,8 +10,7 @@ export default defineConfig({
       babel: {
         plugins: [
           ['babel-plugin-react-compiler', {
-            // React Compiler options
-            compilationMode: 'annotation', // or 'infer'
+            compilationMode: 'annotation',
             panicThreshold: 'all_errors',
             runtimeModule: 'react/compiler-runtime'
           }]
@@ -19,6 +19,14 @@ export default defineConfig({
     }), 
     tailwindcss()
   ],
+  
+  resolve: {
+    alias: {
+      // هذه هي الطريقة الصحيحة لحل مشكلة المسارات
+      "@": fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+
   server: {
     port: 3000, 
   },
