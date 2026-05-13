@@ -1,6 +1,6 @@
+import type { AppDispatch, RootState } from "@/store/stroe";
 import { useDispatch, useSelector } from "react-redux";
 import type { TypedUseSelectorHook } from "react-redux";
-import { AppDispatch, RootState } from "../store/stroe";
 
 
 

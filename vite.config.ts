@@ -1,32 +1,23 @@
-// vite.config.ts
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import react, { reactCompilerPreset } from '@vitejs/plugin-react'
+import babel from '@rolldown/plugin-babel'
 import tailwindcss from '@tailwindcss/vite'
-import { fileURLToPath, URL } from 'node:url'
+import path from "path"
 
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    react({
-      babel: {
-        plugins: [
-          ['babel-plugin-react-compiler', {
-            compilationMode: 'annotation',
-            panicThreshold: 'all_errors',
-            runtimeModule: 'react/compiler-runtime'
-          }]
-        ]
-      }
-    }), 
-    tailwindcss()
-  ],
-  
   resolve: {
     alias: {
-      // هذه هي الطريقة الصحيحة لحل مشكلة المسارات
-      "@": fileURLToPath(new URL('./src', import.meta.url)),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
+  plugins: [
+    tailwindcss(),
+    react(),
 
+
+    babel({ presets: [reactCompilerPreset()] })
+  ],
   server: {
     port: 3000, 
   },
